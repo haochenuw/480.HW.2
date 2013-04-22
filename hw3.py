@@ -15,3 +15,4 @@ def sum_squares1(int n):
     return sum
     
 timeit('sum_squares1(10000)')
+
