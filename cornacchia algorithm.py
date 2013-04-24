@@ -1,4 +1,5 @@
-def find_sol(p,d):
+%cython
+def find_sol(int p,int d):
     r"""
     input - a prime p, an absolute value of discriminant d
     output - a primitive solution (x,y) in integers to the equation
@@ -8,9 +9,9 @@ def find_sol(p,d):
     sage: (2,1)
     """
     if kronecker(-d,p) == 1: 
-        t = find_sqrt(p,-d)
-        bound = p^(.5)
-        n = p
+        cdef int t = find_sqrt(p,-d)
+        cdef double bound = p^(.5)
+        cdef int n = p
         while True:
             n,t = t, n%t
             if t < bound: break
@@ -21,7 +22,7 @@ def find_sol(p,d):
     else:
         return None
 
-def find_sqrt(p,D):
+def int find_sqrt(int p,int D):
     r"""
     input - a prime p, a quadratic residue D
     output -  one square root of D in the finite field GF(p)
@@ -33,7 +34,7 @@ def find_sqrt(p,D):
     D = F(D)
     x = PolynomialRing(F,'x').gen()
     try: 
-        f = x^2 - D
+        cdef int f = x^2 - D
         return ZZ(f.roots()[0][0])
     except Exception, err:
         print "error: "+ str(D) + " is not a quadratic residue mod " + str(p)
